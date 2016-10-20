@@ -1,0 +1,55 @@
+# vagrant 1.8.1 et virtualbox 5.0.24
+
+
+# Creer des boxes vagrant
+
+vagrant box add xenial ./xenial.box
+vagrant box add trusty ./trusty.box
+vagrant box add openstack ./openstack-ovs.box
+
+# Commandes OpenStack
+
+neutron help <subcommands>
+openstack help <subcommands>
+nova help <subcommands>
+
+Keystone  (Authorization & Authentication Management) :
+    openstak project list
+	
+Glance  (VM Images Management) :
+	glance image-create : Registers a new VM image using a stored image file 
+		(alternatives image-delete , image-show)
+	glance image-list : Lists all the VM images
+
+Neutron  (Virtual Networking Resource Management) :
+	neutron net-create : Creates an external network or a virtual tenant network
+	neutron net-list : List external or tenant networks
+	neutron net-external-list : List external networks
+	neutron subnet-create : Creates a subnet range within an external or tenant network
+	neutron subnet-list : List an external or tenant network subnets
+	neutron router-create : Creates an neutron router to route traffic between networks
+	neutron router-interface-add : Adds an interface within a given network to a router 
+	neutron router-gateway-set : Set a router as the gateway of a public network
+	neutron floatingip-create  : Create a floating IP
+	neutron floatingip-associate: Associate a floating-ip to a specific port
+	
+Nova  (Virtual Compute Resource Management) :
+	nova flavor-list : List virtual compute allocation templates (CPUs , memory , swap etc...)
+	nova image-list : List running VMs images
+	nova image-create : Takes a snapshot of a running VM instance
+	nova volume-list : List running VMs volumes
+	nova volume-attach : Attach a cinder volume to a VM instance
+	nova secgroup-add-rule : Add a firewall exception to a VM instance security group
+	nova boot : Creates new or starts existing VM instance 
+		(alternatives  pause , unpause , suspend, resume , start , stop , reboot)
+	nova resize : Tells the VM instance to runs another flavor profile
+	nova show : Displays details about a VM instance
+	nova meta : Sets metadata on VM instance
+
+Cinder  (Virtual Block Storage Resource Management) :
+	cinder create : Creates a new block storage volume
+
+Heat (Virtualized Resources Stack Orchestration) :
+	heat stack-create : Creates a stack of resources from a hot template file
+	heat stack-list : Lists the created stacks
+
