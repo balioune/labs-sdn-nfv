@@ -1,1 +1,19 @@
+#!/bin/bash
 
+tenant_net_name=tenantnet1
+tenant_subnet_name=tenantsubnet1
+
+tenant_id=$(openstack project list | grep 'admin' | awk '{print $2}')
+sleep 3
+neutron net-create tenantnet1 --tenant-id=$tenant_id
+neutron net-create tenantnet2 --tenant-id=$tenant_id
+sleep 5
+neutron subnet-create --name subnet1 --tenant-id=$tenant_id tenantnet1 192.168.1.0/24
+neutron subnet-create --name subnet2 --tenant-id=$tenant_id tenantnet2 192.168.2.0/24
+
+sleep 5
+tenant_net_id1=$(neutron net-list | grep tenantnet1 | awk '{print $2}')
+tenant_net_id2=$(neutron net-list | grep tenantnet2 | awk '{print $2}')
+
+nova boot --image cirros-0.3.3-x86_64 --flavor m1.tiny --nic net-id=$tenant_net_id1   vm1
+nova boot --image cirros-0.3.3-x86_64 --flavor m1.tiny --nic net-id=$tenant_net_id2   vm2
