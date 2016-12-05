@@ -1,0 +1,43 @@
+- créer un réseau "net-test" et un sous-réseau "subnet-test" avec l'option --debug
+
+- Repérer le TOKEN Keystone. Interprétation ?
+
+- Créer une instance "vm-test" OpenStack avec l'option --debug. Analysez les traces.
+
+
+curl -X POST -H "Content-Type: application/json"  -d @data.json http://192.168.56.15:5000/v2.0/tokens
+
+ cat data.json
+{"auth":
+  {
+    "tenantName": "admin",
+    "passwordCredentials" :
+          {
+            "username": "admin",
+                "password": "admin"
+          }
+  }
+}
+
+curl -X POST   -H "Content-Type: application/json"  -d @data.json http://192.168.56.15:5000/v2.0/tokens | python -m json.tool
+
+export OS_TOKEN=80b477e356c54b4f8de3c8d3bdc53dcb
+
+## Lister les instances
+
+curl -g -i  -H "Accept: application/json" -H "X-Auth-Token: $OS_TOKEN"   http://192.168.56.15:8774/v2.1/servers/detail
+
+## Images
+curl -g -i  -H "Accept: application/json" -H "X-Auth-Token: $OS_TOKEN"  http://192.168.56.15:9292/v2/images
+
+## Lister les réseaux 
+
+curl -g -i  -H "Accept: application/json" -H "X-Auth-Token: $OS_TOKEN"  http://192.168.56.15:9696/v2.0/networks
+
+- créer un réseau privé net-api
+- créer un sous-réseau subnet1 192.168.50/24 attaché à net-api
+- ajouter une instance vm-test à net-api
+
+http://developer.openstack.org/api-guide/quick-start/index.html
+
+http://docs.openstack.org/developer/keystone/api_curl_examples.html
